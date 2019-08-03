@@ -1,6 +1,6 @@
 /**
  * @author PKU LIU,Yong
- * @data 8/3/2019
+ * @date 8/3/2019
  */
 #define _CRT_SECURE_NO_WARNINGS
 #include<iostream>
