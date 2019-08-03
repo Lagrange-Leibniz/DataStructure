@@ -1,29 +1,33 @@
+/**
+ * @author PKU LIU,Yong
+ * @data 8/3/2019
+ */
 #define _CRT_SECURE_NO_WARNINGS
 #include<iostream>
 #include<vector>
 #include<stack>
 #include<queue>
-#define MAX 100 //¾ØÕó×î´óÈİÁ¿
-#define INF (~(0x1<<31))//ÎŞÇî´ó
+#define MAX 100 //çŸ©é˜µæœ€å¤§å®¹é‡
+#define INF (~(0x1<<31))//æ— ç©·å¤§
 
 using namespace std;
 
-//ÁÚ½Ó¾ØÕó
+//é‚»æ¥çŸ©é˜µ
 typedef struct _graph {
-	int matrix[MAX][MAX];//¶şÎ¬Êı×é±íÊ¾µÄ¾ØÕó
-	char vexs[MAX];//¶¥µã¼¯
-	int vexnum;//¶¥µã¸öÊı
-	int edgnum;//±ßµÄ¸öÊı
-}Graph, *pGraph;//ÁÚ½Ó¾ØÕóµÄ´æ´¢½á¹¹£¬ÓÃpGraphÖ¸ÕëÖ¸Ïò
+	int matrix[MAX][MAX];//äºŒç»´æ•°ç»„è¡¨ç¤ºçš„çŸ©é˜µ
+	char vexs[MAX];//é¡¶ç‚¹é›†
+	int vexnum;//é¡¶ç‚¹ä¸ªæ•°
+	int edgnum;//è¾¹çš„ä¸ªæ•°
+}Graph, *pGraph;//é‚»æ¥çŸ©é˜µçš„å­˜å‚¨ç»“æ„ï¼Œç”¨pGraphæŒ‡é’ˆæŒ‡å‘
 
-				//±ß½á¹¹Ìå
+				//è¾¹ç»“æ„ä½“
 typedef struct _edge {
-	char start;//Èë¶È
-	char end;//³ö¶È
-	int weight;//È¨Öµ
+	char start;//å…¥åº¦
+	char end;//å‡ºåº¦
+	int weight;//æƒå€¼
 }Edge;
 
-//ÓÉ½ÚµãÃû³ÆÑ°ÕÒ¶ÔÓ¦ÁÚ½Ó¾ØÕóÎ»ÖÃ
+//ç”±èŠ‚ç‚¹åç§°å¯»æ‰¾å¯¹åº”é‚»æ¥çŸ©é˜µä½ç½®
 int getPosition(Graph* gra, char ch) {
 	for (int i = 0; i < gra->vexnum; i++) {
 		if (gra->vexs[i] == ch) {
@@ -32,7 +36,7 @@ int getPosition(Graph* gra, char ch) {
 	}
 	return -1;
 }
-//ÓÉÓÃ»§×Ô¼º´´½¨Ò»¸öÍ¼
+//ç”±ç”¨æˆ·è‡ªå·±åˆ›å»ºä¸€ä¸ªå›¾
 Graph* creatGraph() {
 	char c1, c2;
 	int v, e;
@@ -54,7 +58,7 @@ Graph* creatGraph() {
 		cin >> c1;
 		pgra->vexs[i] = c1;
 	}
-	//ÏÈ×Ô¶¯³õÊ¼»¯È¨Öµ
+	//å…ˆè‡ªåŠ¨åˆå§‹åŒ–æƒå€¼
 	for (int i = 0; i < v; i++) {
 		for (int j = 0; j < v; j++) {
 			if (i == j) {
@@ -65,7 +69,7 @@ Graph* creatGraph() {
 			}
 		}
 	}
-	//ÈÃÓÃ»§³õÊ¼»¯È¨Öµ
+	//è®©ç”¨æˆ·åˆå§‹åŒ–æƒå€¼
 	printf("\nplease initiate the weights of your edge, 1st char is the start, 3rd is the weight\n");
 	for (int i = 0; i < e; i++) {
 		printf("egde(%d): ", i);
@@ -73,8 +77,8 @@ Graph* creatGraph() {
 		p1 = getPosition(pgra, c1);
 		p2 = getPosition(pgra, c2);
 		if (p1 != -1 && p2 != -1) {
-			pgra->matrix[p1][p2] = weight;                                      /*!!!!!!!.....×¢Òâ.....£¡£¡£¡£¡£¡£¡*/
-			pgra->matrix[p2][p1] = weight;                                     //Èç¹ûÊÇÓĞÏòÍ¼µÄ»°£¬Çë°Ñ´ËĞĞ×¢ÊÍµô
+			pgra->matrix[p1][p2] = weight;                                      /*!!!!!!!.....æ³¨æ„.....ï¼ï¼ï¼ï¼ï¼ï¼*/
+			pgra->matrix[p2][p1] = weight;                                     //å¦‚æœæ˜¯æœ‰å‘å›¾çš„è¯ï¼Œè¯·æŠŠæ­¤è¡Œæ³¨é‡Šæ‰
 		}
 		else {
 			printf("Input Error: Invalid edge\n");
@@ -84,7 +88,7 @@ Graph* creatGraph() {
 	}
 	return pgra;
 }
-//¹ã¶ÈÓÅÏÈ±éÀúÍ¼
+//å¹¿åº¦ä¼˜å…ˆéå†å›¾
 void BFS(Graph*gra, int v, vector<bool>& visited) {
 	int n = gra->vexnum;
 	queue<int> que;
@@ -105,7 +109,7 @@ void BFS(Graph*gra, int v, vector<bool>& visited) {
 		}
 	}
 }
-//Éî¶ÈÓÅÏÈ±éÀúÍ¼
+//æ·±åº¦ä¼˜å…ˆéå†å›¾
 void DFS(Graph*gra, int v, vector<bool>& visited) {
 	cout << gra->vexs[v] << endl;
 	visited[v] = true;
@@ -115,21 +119,21 @@ void DFS(Graph*gra, int v, vector<bool>& visited) {
 		}
 	}
 }
-//×îĞ¡Éú³ÉÊ÷ ÆÕÀïÄ·Ëã·¨
+//æœ€å°ç”Ÿæˆæ ‘ æ™®é‡Œå§†ç®—æ³•
 void prim(Graph*gra, char v0) {
 	int n = gra->vexnum;
 	int k = getPosition(gra, v0);
-	vector<vector<int>> close(n, vector<int>(n));//µÚÒ»¸öÊıÎª´ÓÄÄ¸öµãÀ´£¬µÚ¶ş¸öÎª¸Ãµãµ½ÆäÓàµãµÄÖ±½ÓÂ·¾¶³¤¶È
+	vector<vector<int>> close(n, vector<int>(n));//ç¬¬ä¸€ä¸ªæ•°ä¸ºä»å“ªä¸ªç‚¹æ¥ï¼Œç¬¬äºŒä¸ªä¸ºè¯¥ç‚¹åˆ°å…¶ä½™ç‚¹çš„ç›´æ¥è·¯å¾„é•¿åº¦
 	vector<bool> isvisited(n, true);
-	//³õÊ¼»¯´Ókµ½ÆäËûµãµÄÂ·¾¶
+	//åˆå§‹åŒ–ä»kåˆ°å…¶ä»–ç‚¹çš„è·¯å¾„
 	for (int i = 0; i < n; i++) {
 		close[k][i] = gra->matrix[k][i];
 	}
-	isvisited[k] = false;//½«k¼ÓÈëu¼¯
-	for (int i = 1; i < n; i++) {//¶ÔÊ£ÓàµÄn-1ÌõÂ·¾¶½øĞĞ²Ù×÷
+	isvisited[k] = false;//å°†kåŠ å…¥ué›†
+	for (int i = 1; i < n; i++) {//å¯¹å‰©ä½™çš„n-1æ¡è·¯å¾„è¿›è¡Œæ“ä½œ
 		int min = INF, v;
-		for (int j = 0; j < n; j++) {//Ñ¡Ôñ´Ókµ½v-u¼¯ÖĞ×î¶ÌµÄÒ»Ìõ
-			if (isvisited[j] && k != j && gra->matrix[k][j] < INF) {//Ê×ÏÈ±£Ö¤´Óv-u¼¯ÀïÑ¡ÔªËØ£¬È»ºóÔÙÑ¡³ı×ÔÉíÍâµÄ×îĞ¡µÄÂ·¾¶
+		for (int j = 0; j < n; j++) {//é€‰æ‹©ä»kåˆ°v-ué›†ä¸­æœ€çŸ­çš„ä¸€æ¡
+			if (isvisited[j] && k != j && gra->matrix[k][j] < INF) {//é¦–å…ˆä¿è¯ä»v-ué›†é‡Œé€‰å…ƒç´ ï¼Œç„¶åå†é€‰é™¤è‡ªèº«å¤–çš„æœ€å°çš„è·¯å¾„
 				v = j;
 				min = gra->matrix[k][j];
 			}
@@ -139,11 +143,11 @@ void prim(Graph*gra, char v0) {
 		k = v;
 	}
 }
-//ÍØÆËÅÅĞò - ÓĞÏòÍ¼ ÁÚ½Ó¾ØÕó´æ´¢
+//æ‹“æ‰‘æ’åº - æœ‰å‘å›¾ é‚»æ¥çŸ©é˜µå­˜å‚¨
 bool topological(Graph*gra, vector<int>& topo) {
-	//Í³¼ÆËùÓĞ½ÚµãµÄÈë¶È
+	//ç»Ÿè®¡æ‰€æœ‰èŠ‚ç‚¹çš„å…¥åº¦
 	int n = gra->vexnum;
-	//int* indegree = new int[gra->vexnum]{0};//´æ·ÅÃ¿¸ö½ÚµãµÄÈë¶È
+	//int* indegree = new int[gra->vexnum]{0};//å­˜æ”¾æ¯ä¸ªèŠ‚ç‚¹çš„å…¥åº¦
 	vector<int> indegree(n);
 	for (int i = 0; i < n; i++) {
 		for (int j = 0; j < n; j++) {
@@ -152,23 +156,23 @@ bool topological(Graph*gra, vector<int>& topo) {
 			}
 		}
 	}
-	stack<int> sta;//´æ·ÅÈë¶ÈÎª0µÄµã
+	stack<int> sta;//å­˜æ”¾å…¥åº¦ä¸º0çš„ç‚¹
 	for (int i = 0; i < n; i++) {
 		if (indegree[i] == 0) {
 			sta.push(i);
 		}
 	}
-	int count = 0;//×÷Îª¼ÆÊıÆ÷
+	int count = 0;//ä½œä¸ºè®¡æ•°å™¨
 	while (!sta.empty()) {
 		int k = sta.top();
 		sta.pop();
-		topo[count] = k;//±£´æµ½ÍØÆË¼¯ºÏÖĞ
+		topo[count] = k;//ä¿å­˜åˆ°æ‹“æ‰‘é›†åˆä¸­
 		count++;
-		//£¨ÔÚÂß¼­ÉÏ£©É¾³ı¸Ã½Úµã£¬Í³¼ÆĞÂµÄÈë¶ÈÎª0µÄµã
+		//ï¼ˆåœ¨é€»è¾‘ä¸Šï¼‰åˆ é™¤è¯¥èŠ‚ç‚¹ï¼Œç»Ÿè®¡æ–°çš„å…¥åº¦ä¸º0çš„ç‚¹
 		for (int i = 0; i < n; i++) {
-			if (gra->matrix[k][i] != INF) {//Èç¹ûÖ®Ç°´æÔÚÂ·¾¶
+			if (gra->matrix[k][i] != INF) {//å¦‚æœä¹‹å‰å­˜åœ¨è·¯å¾„
 				indegree[i]--;
-				if (indegree[i] == 0) {//³öÏÖÁËĞÂµÄÈë¶ÈÎª0µÄµã
+				if (indegree[i] == 0) {//å‡ºç°äº†æ–°çš„å…¥åº¦ä¸º0çš„ç‚¹
 					sta.push(i);
 				}
 			}
@@ -179,55 +183,55 @@ bool topological(Graph*gra, vector<int>& topo) {
 	}
 	return false;
 }
-//¹Ø¼üÂ·¾¶
+//å…³é”®è·¯å¾„
 void critical(Graph*gra) {
 	int n = gra->vexnum;
 	vector<int> topo(n);
-	if (!topological(gra, topo)) return;//ËµÃ÷Í¼ÖĞÓĞ»·Â·
+	if (!topological(gra, topo)) return;//è¯´æ˜å›¾ä¸­æœ‰ç¯è·¯
 	vector<int> ve(n);
 	vector<int> vl(n, INF);
-	//´ÓÍØÆË¼¯ºÏÖĞÒÀ´ÎÑ¡È¡¶¥µã£¬½øĞĞveµÄÍ³¼Æ
+	//ä»æ‹“æ‰‘é›†åˆä¸­ä¾æ¬¡é€‰å–é¡¶ç‚¹ï¼Œè¿›è¡Œveçš„ç»Ÿè®¡
 	for (int i = 0; i < n; i++) {
-		int k = topo[i];//ÓÃk¼ÇÂ¼µ±Ç°µÄ½Úµã
-						//Ì½Ë÷´Ókµ½jµÄÂ·¾¶
+		int k = topo[i];//ç”¨kè®°å½•å½“å‰çš„èŠ‚ç‚¹
+						//æ¢ç´¢ä»kåˆ°jçš„è·¯å¾„
 		for (int j = 0; j < n; j++) {
-			if (gra->matrix[k][j] != INF && gra->matrix[k][j] != 0) {//±ØĞë´æÔÚÂ·¾¶£¬²»ÄÜ°üÀ¨×ÔÉí
-				if (ve[k] + gra->matrix[k][j] > ve[j]) {//Ñ¡Ôñ½Ï´óµÄ
+			if (gra->matrix[k][j] != INF && gra->matrix[k][j] != 0) {//å¿…é¡»å­˜åœ¨è·¯å¾„ï¼Œä¸èƒ½åŒ…æ‹¬è‡ªèº«
+				if (ve[k] + gra->matrix[k][j] > ve[j]) {//é€‰æ‹©è¾ƒå¤§çš„
 					ve[j] = ve[k] + gra->matrix[k][j];
 				}
 			}
 		}
 	}
-	//´ÓÍØÆË¼¯ºÏÖĞµ¹×ÅÑ¡È¡¶¥µã£¬½øĞĞvlµÄÍ³¼Æ
-	vl[n - 1] = ve[n - 1];//×îºóÒ»¸ö¹¤ĞòµÄveºÍvlÊÇÏàµÈµÄ
-	for (int i = n - 1; i >= 0; i--) {//×¢ÒâÊÇ·´¹ıÀ´µÄ
+	//ä»æ‹“æ‰‘é›†åˆä¸­å€’ç€é€‰å–é¡¶ç‚¹ï¼Œè¿›è¡Œvlçš„ç»Ÿè®¡
+	vl[n - 1] = ve[n - 1];//æœ€åä¸€ä¸ªå·¥åºçš„veå’Œvlæ˜¯ç›¸ç­‰çš„
+	for (int i = n - 1; i >= 0; i--) {//æ³¨æ„æ˜¯åè¿‡æ¥çš„
 		int k = topo[i];
-		//Ì½Ë÷´Ójµ½kµÄÂ·¾¶
+		//æ¢ç´¢ä»jåˆ°kçš„è·¯å¾„
 		for (int j = 0; j < n; j++) {
 			if (gra->matrix[j][k] != INF && gra->matrix[j][k] != 0) {
-				if (vl[k] - gra->matrix[j][k] < vl[j]) {//Ñ¡Ôñ½ÏĞ¡µÄ
+				if (vl[k] - gra->matrix[j][k] < vl[j]) {//é€‰æ‹©è¾ƒå°çš„
 					vl[j] = vl[k] - gra->matrix[j][k];
 				}
 			}
 		}
 	}
-	//Ã¿µÀ¹¤Ğò×îÔç×î³ÙÅĞ¶Ï
+	//æ¯é“å·¥åºæœ€æ—©æœ€è¿Ÿåˆ¤æ–­
 	for (int i = 0; i < n; i++) {
 		for (int j = 0; j < n; j++) {
-			if (gra->matrix[i][j] != INF && gra->matrix[i][j] != 0) {//±£Ö¤ÓĞÂ·¾¶
-				if (ve[i] == vl[j] - gra->matrix[i][j]) {//×îÔç×î³ÙÏàÍ¬
+			if (gra->matrix[i][j] != INF && gra->matrix[i][j] != 0) {//ä¿è¯æœ‰è·¯å¾„
+				if (ve[i] == vl[j] - gra->matrix[i][j]) {//æœ€æ—©æœ€è¿Ÿç›¸åŒ
 					cout << gra->vexs[i] << " " << gra->vexs[j] << endl;
 				}
 			}
 		}
 	}
 }
-//¸¥ÂåÒÁµÂËã·¨Çó×î¶ÌÂ·¾¶
+//å¼—æ´›ä¼Šå¾·ç®—æ³•æ±‚æœ€çŸ­è·¯å¾„
 void Floyd(Graph* gra) {
-	//³õÊ¼»¯
+	//åˆå§‹åŒ–
 	int n = gra->vexnum;
-	vector<vector<int>> dist(n, vector<int>(n));//´æ·ÅÁ½µãÖ®¼äµÄ×î¶Ì¾àÀë³¤¶È
-	vector<vector<int>> path(n, vector<int>(n));//´æ·ÅÁ½µãµÄÂ·¾¶ĞÅÏ¢£¬µÚÒ»¸öÊÇÇ°Çı
+	vector<vector<int>> dist(n, vector<int>(n));//å­˜æ”¾ä¸¤ç‚¹ä¹‹é—´çš„æœ€çŸ­è·ç¦»é•¿åº¦
+	vector<vector<int>> path(n, vector<int>(n));//å­˜æ”¾ä¸¤ç‚¹çš„è·¯å¾„ä¿¡æ¯ï¼Œç¬¬ä¸€ä¸ªæ˜¯å‰é©±
 	for (int i = 0; i < n; i++) {
 		for (int j = 0; j < n; j++) {
 			dist[i][j] = gra->matrix[i][j];
@@ -239,47 +243,47 @@ void Floyd(Graph* gra) {
 			}
 		}
 	}
-	for (int k = 0; k < n; k++) {//kÊÇÖĞ¼ä²åÈëµÄÔªËØ
+	for (int k = 0; k < n; k++) {//kæ˜¯ä¸­é—´æ’å…¥çš„å…ƒç´ 
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < n; j++) {
-				if (dist[i][k] + dist[k][j] < dist[i][j]) {//´Ói¾­¹ıkµ½jµÄÒ»ÌõÂ·¾¶£¬Ô­ÏÈµÄÂ·¾¶Òª¶Ì
-					dist[i][j] = dist[i][k] + dist[k][j];//¸üĞÂÂ·¾¶³¤¶È
-					path[i][j] = path[k][j];//¸üĞÂÇ°Çı
+				if (dist[i][k] + dist[k][j] < dist[i][j]) {//ä»iç»è¿‡kåˆ°jçš„ä¸€æ¡è·¯å¾„ï¼ŒåŸå…ˆçš„è·¯å¾„è¦çŸ­
+					dist[i][j] = dist[i][k] + dist[k][j];//æ›´æ–°è·¯å¾„é•¿åº¦
+					path[i][j] = path[k][j];//æ›´æ–°å‰é©±
 				}
 			}
 		}
 	}
 }
-//µÏ½ÜË¹ÌØÀ­Ëã·¨Çó×î¶ÌÂ·¾¶
+//è¿ªæ°æ–¯ç‰¹æ‹‰ç®—æ³•æ±‚æœ€çŸ­è·¯å¾„
 void DJS(Graph* pgra, char ch) {
-	int v0 = getPosition(pgra, ch);//µÃµ½¸Ã½ÚµãÔÚÁÚ½Ó¾ØÕóÖĞµÄÎ»ÖÃ
-	int vexnum = pgra->vexnum;//¶¥µã¸öÊı
-	bool* S = new bool[vexnum] {false};//S¼¯£¬³õÊ¼»¯ÎªÎ´Ñ¡ÖĞ
-	int* dist = new int[vexnum];//dist¼¯ºÏ£¬´æ·ÅµÄÊÇµ½µ±Ç°½ÚµãµÄÂ·¾¶
-	int* path = new int[vexnum];//µ½¸Ã½Úµã×î¶ÌÂ·¾¶µÄ½ÚµãĞÅÏ¢
-	S[v0] = true;//°Ñ¸Ã½ÚµãÒÆ³ıS¼¯
+	int v0 = getPosition(pgra, ch);//å¾—åˆ°è¯¥èŠ‚ç‚¹åœ¨é‚»æ¥çŸ©é˜µä¸­çš„ä½ç½®
+	int vexnum = pgra->vexnum;//é¡¶ç‚¹ä¸ªæ•°
+	bool* S = new bool[vexnum] {false};//Sé›†ï¼Œåˆå§‹åŒ–ä¸ºæœªé€‰ä¸­
+	int* dist = new int[vexnum];//disté›†åˆï¼Œå­˜æ”¾çš„æ˜¯åˆ°å½“å‰èŠ‚ç‚¹çš„è·¯å¾„
+	int* path = new int[vexnum];//åˆ°è¯¥èŠ‚ç‚¹æœ€çŸ­è·¯å¾„çš„èŠ‚ç‚¹ä¿¡æ¯
+	S[v0] = true;//æŠŠè¯¥èŠ‚ç‚¹ç§»é™¤Sé›†
 	dist[v0] = 0;
-	//³õÊ¼»¯
+	//åˆå§‹åŒ–
 	for (int v = 0; v < vexnum; v++) {
 		dist[v] = pgra->matrix[v0][v];
-		if (dist[v] != INF) {//´ËÊ±ÓĞÂ·¾¶
+		if (dist[v] != INF) {//æ­¤æ—¶æœ‰è·¯å¾„
 			path[v] = v0;
 		}
 	}
 
-	//¶ÔÊ£ÓàµÄn-1¸ö½ÚµãÖğÒ»Çó×î¶ÌÂ·¾¶
-	for (int i = 1; i < vexnum - 1; i++) {//Ïàµ±ÓÚ¼ÆÊıÆ÷
+	//å¯¹å‰©ä½™çš„n-1ä¸ªèŠ‚ç‚¹é€ä¸€æ±‚æœ€çŸ­è·¯å¾„
+	for (int i = 1; i < vexnum - 1; i++) {//ç›¸å½“äºè®¡æ•°å™¨
 		int min = INF;
 		int v;
-		//´ÓS¼¯ºÏÖĞÈÎÑ¡Ò»¸ö½øĞĞÊÔÌ½
+		//ä»Sé›†åˆä¸­ä»»é€‰ä¸€ä¸ªè¿›è¡Œè¯•æ¢
 		for (int w = 0; w < vexnum; w++) {
-			if (!S[w] && dist[w] < min) {//ÔÙ´ÓdistÀïÃæÑ¡È¡Ò»Ìõ×î¶ÌµÄ
+			if (!S[w] && dist[w] < min) {//å†ä»disté‡Œé¢é€‰å–ä¸€æ¡æœ€çŸ­çš„
 				min = dist[w];
-				v = w;//°Ñ¸Ã½Úµã¼ÇÂ¼ÏÂÀ´
+				v = w;//æŠŠè¯¥èŠ‚ç‚¹è®°å½•ä¸‹æ¥
 			}
 		}
-		S[v] = true;//°Ñ¸ÃµãÒÆ³ıS¼¯
-					//¸üĞÂÆäËû½ÚµãµÄ×î¶ÌÂ·¾¶
+		S[v] = true;//æŠŠè¯¥ç‚¹ç§»é™¤Sé›†
+					//æ›´æ–°å…¶ä»–èŠ‚ç‚¹çš„æœ€çŸ­è·¯å¾„
 		for (int w = 0; w < vexnum; w++) {
 			if (!S[w] && dist[v] + pgra->matrix[v][w] < dist[w]) {
 				dist[w] = dist[v] + pgra->matrix[v][w];
