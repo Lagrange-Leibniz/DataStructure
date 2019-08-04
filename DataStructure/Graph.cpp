@@ -94,7 +94,7 @@ void BFS(Graph*gra, int v, vector<bool>& visited) {
 	queue<int> que;
 	que.push(v);
 	while (!que.empty()) {
-		int u = que.back();
+		int u = que.front();
 		que.pop();
 		if (!visited[u]) {
 			cout << gra->vexs[u] << " " << endl;
